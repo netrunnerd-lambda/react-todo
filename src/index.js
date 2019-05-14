@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { render } from 'react-dom';
-import App from './App';
 
-render(<App />, document.getElementById('root'));
+class App extends Component {
+  render() {
+    return (
+      <Fragment>
+        <h1>Welcome to my Todo App</h1>
+      </Fragment>
+    );
+  }
+}
+
+const element = document.getElementById('root');
+
+render(<App />, element);
