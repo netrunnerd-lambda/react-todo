@@ -11,53 +11,66 @@ class App extends Component {
     super(props);
 
     this.state = {
-      current: '',
+      currentTask: '',
       todos: []
     };
 
     this.addTodo = this.addTodo.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
-    this.updateCurrent = this.updateCurrent.bind(this);
+    this.markComplete = this.markComplete.bind(this);
+    this.updateCurrentTask = this.updateCurrentTask.bind(this);
   }
 
-  addTodo() {
-    this.setState(state => {
-      const todos = state.todos.concat({
-        task: state.current,
+  addTodo(e) {
+    e.preventDefault();
+
+    if (!this.state.currentTask)
+      return;
+
+    const todos = [
+      ...this.state.todos,
+      {
+        task: this.state.currentTask,
         id: Date.now(),
         completed: false
-      });
+      }
+    ];
 
-      return {
-        current: '',
-        todos
-      };
-    });
+    this.setState({ currentTask: '', todos });
   }
 
-  clearCompleted() {
-    this.setState(state => {
-      const todos = state.todos.filter(todo => todo.completed ? null : todo);
+  clearCompleted(e) {
+    e.preventDefault();
+    
+    const todos = this.state.todos.filter(todo => todo.completed ? null : todo);
 
-      return {
-        todos
-      };
-    });
+    this.setState({ todos });
   }
 
-  updateCurrent(e) {
-    this.setState({ current: e.target.value });
+  markComplete(id) {
+    const todos = this.state.todos.map(todo => {
+      if (todo.id === id)
+        todo.completed = !todo.completed;
+    
+      return todo;
+    });
+
+    this.setState({ todos });
+  }
+
+  updateCurrentTask(e) {
+    this.setState({ currentTask: e.target.value });
   }
 
   render() {
     return (
       <Fragment>
         <h1>Welcome to my Todo App</h1>
-        <TodoList todos={ this.state.todos } />
+        <TodoList todos={ this.state.todos } markComplete={ this.markComplete } />
         <TodoForm addTodo={ this.addTodo } 
                   clearCompleted={ this.clearCompleted }
-                  currentValue={ this.state.current }
-                  updateCurrent={ this.updateCurrent } />
+                  currentTask={ this.state.currentTask }
+                  updateCurrentTask={ this.updateCurrentTask } />
       </Fragment>
     );
   }
