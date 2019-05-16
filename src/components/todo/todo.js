@@ -1,9 +1,14 @@
 import React from 'react';
+import './todo.css';
 
-const Todo = ({ completed, id, markComplete, task }) => {
-  const classList = completed ? 'todo-item complete' : 'todo-item';
+const Todo = ({ clickHandler, completed, id, task }) => {
+  const isComplete = completed ? 'complete' : '';
 
-  return <li className={ classList } onClick={ _ => markComplete(id) }>{ task }</li>
+  return (
+    <li className={ `todo-item ${ isComplete }` } onClick={ _ => clickHandler(id) }>
+      <div className={ `progress ${ isComplete }` }> </div> <span>{ task }</span>
+    </li>
+  );
 }
 
 export default Todo;

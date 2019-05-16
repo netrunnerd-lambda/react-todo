@@ -17,7 +17,7 @@ class App extends Component {
 
     this.addTodo = this.addTodo.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
-    this.markComplete = this.markComplete.bind(this);
+    this.markTaskComplete = this.markTaskComplete.bind(this);
     this.updateCurrentTask = this.updateCurrentTask.bind(this);
   }
 
@@ -47,7 +47,7 @@ class App extends Component {
     this.setState({ todos });
   }
 
-  markComplete(id) {
+  markTaskComplete(id) {
     const todos = this.state.todos.map(todo => {
       if (todo.id === id)
         todo.completed = !todo.completed;
@@ -65,12 +65,14 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <h1>Welcome to my Todo App</h1>
-        <TodoList todos={ this.state.todos } markComplete={ this.markComplete } />
-        <TodoForm addTodo={ this.addTodo } 
-                  clearCompleted={ this.clearCompleted }
-                  currentTask={ this.state.currentTask }
-                  updateCurrentTask={ this.updateCurrentTask } />
+        <h1>ALTIMATE TASK MANAGER</h1>
+        <main className="container">
+          <TodoForm addTodo={ this.addTodo } 
+                    clearCompleted={ this.clearCompleted }
+                    currentTask={ this.state.currentTask }
+                    updateCurrentTask={ this.updateCurrentTask } />
+          <TodoList todos={ this.state.todos } clickHandler={ this.markTaskComplete } />
+        </main>
       </Fragment>
     );
   }
